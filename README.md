@@ -1,80 +1,147 @@
-# agile-software-engineering-for-java
+# Java
 
-# Cloud & Micro-services
+Explain Static methods, abstract methods and default methods of interface
 
-### On-Premise vs. Public Cloud
+Design Patterns:
 
-- On-premise systems hosted for 1 customer, if there is an issue only 1 customer is affected.T his means there are **X** different on-premise systems, each having its own administrator.
-- Public Cloud: Outages apply to **every** customer. **We** have to ensure availability (the work of **X** administrators)
+- [https://app.pluralsight.com/skilliq/java-design-patterns/intro?context=skills](https://app.pluralsight.com/skilliq/java-design-patterns/intro?context=skills)
 
-### Public Cloud Requirements
+Integer to String:
 
-- **Boundless Scalability: millions of users, thousands of servers, petabytes of data, globally distributed**
-- **High Availability**: zero downtime deployments, seamless failover
-- **Fast Innovation**: develop, build and ship in short cycles within a day
+- Integer.toString(i);
 
-### **Can a monolith fulfil these requirements?**
+Compare two String:
 
-![Untitled](Cloud%20&%20Micro-services%203735144f2784469b9522f64b00ada2f7/Untitled.png)
+- s1.equals(s2)
+    - == doesn’t work
 
-### Monolithic Architecture
+Class name should nouns, methods name should be verbs
 
-- 👍
-    - Guaranteed transactional consistency for all data
-    - Simple deployment, monitoring & troubleshooting
-    - Code sharing easy
+### Optional Class:
 
-- 👎
-    - Vertical scaling limited by hardware, cost non-linear
-    - Systems poorly utilised:
-        - Even when the application is not intensively used (non-peak) the full resources are provided
-    - HA Setup requires almost double the infrastructure
-    - Must be built, tested, deployed and scaled as a whole
+- get()
 
-### **Idea Of Micro-services**
+```java
+public Optional<Book> get(Long id) {
+		return Optional.ofNullable(books.get(id));
+	}
 
-![Untitled](Cloud%20&%20Micro-services%203735144f2784469b9522f64b00ada2f7/Untitled%201.png)
+Optional op = bookStorage.get(id);
+        Book book = (Book) op.get();
+```
 
-- rather than having the whole application 'smushed' into one monolith, break the monolith into smaller services
-    - each running in it's own process
-    - each developed and deployed independently
+JUnits:
+
+- Test Isolation for autowired classes
+- Dirties Context
+    - @DirtiesContext can help us clean up any state we add/apply to the spring context through test cases.
+    - It will throw away and re-create the whole Spring context of the application after every single test method (or class).
+    - Use this feature sparingly, since it will significantly increase the runtime of your tests. More often than not there are other, way more performant, ways of "cleaning up" the state your tests created.
     
-
-### **Advantages Of Micro-services**
-
-![Untitled](Cloud%20&%20Micro-services%203735144f2784469b9522f64b00ada2f7/Untitled%202.png)
-
-- Unlimited and fine granular **(auto-)scaling possible**
-- **Poly skilled teams** can work on services independently
-- Deployable individually and frequently
-- Each service can be **deployed independently**
-- Lower **Risk** of deployment
-- **Free choice of technology** for individual services
-
-### **What are the properties of a Micro-service Application?**
-
-- a single application as a **suite** of small services, the "application" is the **sum of its services**
-- with each service running in its **own process**
-    - Each service has it's own application lifecycle, can be stopped, started, scaled and broken ;-) individually
-- communicating with lightweight mechanisms e.g. **HTTP**
-- services are built around business capabilities, Each service has a **clearly defined responsibility and interface**
-- own one part from DB to UI
-    - each service has it's own datastore (no sharing!)
-    - the only way for other services to get information from the datastore is via the network endpoints of the owning service
-    - Micro-service is transaction boundary: Service can guarantee data consistency only for local data
-        - Why no DB sharing? If we share a db between services we break independent deployability, the schema is then a "shared implementation detail" of all services using it. **This leads to tight coupling between the services.**
-    - Ideally, even UI part is of service, Why?-> ...otherwise hard to keep independently deployable from UI since UI would be a separate service.
-
-![Untitled](Cloud%20&%20Micro-services%203735144f2784469b9522f64b00ada2f7/Untitled%203.png)
-
-### Difference b/w Restart & Restage:
-
-**When to Restart:**
-
-> Restart your app to refresh the app’s environment after actions such as binding a new service to the app or setting an environment variable that only the app consumes.
-> 
-
-**When to Restage:**
-
-> Restage your app if you have changed the environment in a way that affects your staging process, such as setting an environment variable that the buildpack consumes. The staging process has access to environment variables, so the environment can affect the contents of the droplet.
->
+    ```java
+    /*
+    The following annotation simulates application restart before every test method
+    */
+    @SpringBootTest
+    @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+    public class DataDurabilityTest { ....
+    ```
+    
+    [DirtiesContext](https://docs.spring.io/spring-framework/docs/3.0.x/javadoc-api/org/springframework/test/annotation/DirtiesContext.html)
+    
+- AssertThat → AssertJ
+    
+    ```java
+    import static org.assertj.core.api.Assertions.assertThat;
+    ```
+    
+    ```java
+    *assertThat*(list).hasSizeGreaterThanOrEqualTo(2);
+    ```
+    
+    ### SpringBoot:
+    
+    - Unit Testing
+        - the @SpringBootTest annotation registers this test class with Spring Boot which will, among other things, take care of dependency injection for this class
+        - the @AutoConfigureMockMvc annotation triggers auto-configuration for MockMvc which is then injected below
+        - MockMvc will be used to send our "spring-internal" requests to our implementation under test
+        
+        ```java
+        package com.sap.cc.books;
+        
+        import org.springframework.beans.factory.annotation.Autowired;
+        import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+        import org.springframework.boot.test.context.SpringBootTest;
+        import org.springframework.test.web.servlet.MockMvc;
+        
+        @SpringBootTest
+        @AutoConfigureMockMvc
+        public class BookControllerTest {
+        
+            @Autowired
+            private MockMvc mockMvc;
+        
+        }
+        ```
+        
+        ### Custom exception Mapping:
+        
+        add a custom exception mapper to map the IllegalArgumentException to a BAD_REQUEST(400) return code. Simply copy the code below and create the corresponding class
+        
+        ```java
+        package com.sap.cc.books;
+        
+        import org.springframework.http.HttpStatus;
+        import org.springframework.http.ResponseEntity;
+        import org.springframework.web.bind.annotation.ExceptionHandler;
+        import org.springframework.web.bind.annotation.RestControllerAdvice;
+        
+        @RestControllerAdvice
+        public class CustomExceptionMapper {
+        
+            @ExceptionHandler
+            public ResponseEntity<String> handleBadRequestException(IllegalArgumentException exception) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getLocalizedMessage());
+            }
+        
+        }
+        ```
+        
+        ## H2
+        
+        - H2 is an open-source lightweight Java database.
+        - It can be embedded in Java applications or run in the client-server mode.
+        - Mainly, H2 database can be configured to run as inmemory database, which means that data will not persist on the disk. Because of embedded database it is not used for production development, but mostly used for development and testing.
+        
+        ```xml
+        <dependency>
+        			<groupId>com.h2database</groupId>
+        			<artifactId>h2</artifactId>
+        			<scope>test</scope>
+        </dependency>
+        ```
+        
+        - By default Spring Boot will configure the H2 database to store its data in-memory
+        - Let's reconfigure the H2 database to use file-based storage instead of in-memory storage in order to make our data persistent across application restarts / context reloads.
+        
+        1. In src/test/resources there is an application.properties file (if not you can simply create it).
+        2. In it add these two configurations
+        
+        ```java
+        spring.datasource.url=jdbc:h2:file:./data/book-db
+        spring.jpa.hibernate.ddl-auto=update
+        ```
+        
+        - The line ***spring.jpa.hibernate.ddl-auto=update*** is required since the default value would be drop-create
+        
+        ## CFenv lib
+        
+        - automatically supplies your app with the connection info from VCAP_SERVICES env variable
+        
+        ```xml
+        <dependency>
+            <groupId>io.pivotal.cfenv</groupId>
+            <artifactId>java-cfenv-boot</artifactId>
+            <version>2.2.2.RELEASE</version>
+        </dependency>
+        ```
