@@ -1,0 +1,7 @@
+com/sap/cc/videostore/ChildrenMovie.class
+com/sap/cc/videostore/RegularMovie.class
+com/sap/cc/videostore/Rental.class
+com/sap/cc/videostore/Movie.class
+com/sap/cc/videostore/Main.class
+com/sap/cc/videostore/Statement.class
+com/sap/cc/videostore/NewReleaseMovie.class

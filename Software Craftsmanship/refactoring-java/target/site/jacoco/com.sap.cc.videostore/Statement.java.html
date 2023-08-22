@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Statement.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Refactoring</a> &gt; <a href="index.source.html" class="el_package">com.sap.cc.videostore</a> &gt; <span class="el_source">Statement.java</span></div><h1>Statement.java</h1><pre class="source lang-java linenums">package com.sap.cc.videostore;
+
+import java.util.ArrayList;
+import java.util.List;
+
+class Statement {
+    private String _name;
+<span class="fc" id="L8">    private List&lt;Rental&gt; _rentals = new ArrayList&lt;&gt;();</span>
+    private double totalAmount;
+    private int frequentRenterPoints;
+
+<span class="fc" id="L12">    public Statement(String name) {</span>
+<span class="fc" id="L13">        _name = name;</span>
+<span class="fc" id="L14">    }</span>
+
+    public void addRental(Rental arg) {
+<span class="fc" id="L17">        _rentals.add(arg);</span>
+<span class="fc" id="L18">    }</span>
+
+    public String getName() {
+<span class="fc" id="L21">        return _name;</span>
+    }
+
+    private void clearTotals(){
+<span class="fc" id="L25">        totalAmount = 0;</span>
+<span class="fc" id="L26">        frequentRenterPoints = 0;</span>
+<span class="fc" id="L27">    }</span>
+
+    private String header(){
+<span class="fc" id="L30">        String statementText = &quot;Rental Record for &quot; + getName() + &quot;\n&quot;;</span>
+<span class="fc" id="L31">        return statementText;</span>
+    }
+
+    /*private double determineAmount(Rental rental){
+        double rentalAmount = 0;
+        switch (rental.getMovie().getPriceCode()) {
+            case Movie.REGULAR:
+                rentalAmount += 2;
+                if (rental.getDaysRented() &gt; 2)
+                    rentalAmount += (rental.getDaysRented() - 2) * 1.5;
+                break;
+            case Movie.NEW_RELEASE:
+                rentalAmount += rental.getDaysRented() * 3;
+                break;
+            case Movie.CHILDRENS:
+                rentalAmount += 1.5;
+                if (rental.getDaysRented() &gt; 3)
+                    rentalAmount += (rental.getDaysRented() - 3) * 1.5;
+                break;
+        }
+
+        return rentalAmount;
+    }
+
+    private int determineFrequentRenterPoints(Rental rental){
+        int frequentRenterPoints = 1;
+        if ((rental.getMovie().getPriceCode() == Movie.NEW_RELEASE)
+                &amp;&amp; rental.getDaysRented() &gt; 1)
+            frequentRenterPoints++;
+
+        return frequentRenterPoints;
+    }*/
+
+    private String formatRentalLine(Rental rental, double rentalAmount){
+<span class="fc" id="L65">        return &quot;\t&quot; + rental.getMovie().getTitle() + &quot;\t&quot; +</span>
+<span class="fc" id="L66">                String.valueOf(rentalAmount) + &quot;\n&quot;;</span>
+    }
+    private String rentalLine(Rental rental){
+<span class="fc" id="L69">        double rentalAmount = rental.determineAmount();</span>
+<span class="fc" id="L70">        frequentRenterPoints += rental.determineFrequentRenterPoints();</span>
+<span class="fc" id="L71">        totalAmount += rentalAmount;</span>
+
+<span class="fc" id="L73">        return formatRentalLine(rental, rentalAmount);</span>
+    }
+
+    private String rentalLines(){
+<span class="fc" id="L77">        String rentalLines = &quot;&quot;;</span>
+
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        for (Rental rental : _rentals) {</span>
+<span class="fc" id="L80">            rentalLines += rentalLine(rental);</span>
+<span class="fc" id="L81">        }</span>
+<span class="fc" id="L82">        return rentalLines;</span>
+    }
+
+    private String footer(){
+<span class="fc" id="L86">        String statementText = &quot;&quot;;</span>
+
+<span class="fc" id="L88">        statementText += &quot;Amount owed is &quot; + String.valueOf(totalAmount) +</span>
+                &quot;\n&quot;;
+<span class="fc" id="L90">        statementText += &quot;You earned &quot; + String.valueOf(frequentRenterPoints)</span>
+                +
+                &quot; frequent renter points&quot;;
+
+<span class="fc" id="L94">        return statementText;</span>
+    }
+    public String generate() {
+<span class="fc" id="L97">        clearTotals();</span>
+<span class="fc" id="L98">        var statementText = header() + rentalLines() + footer();</span>
+
+<span class="fc" id="L100">        return statementText;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -1,0 +1,8 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+Refactoring,com.sap.cc.videostore,Rental,0,24,0,0,0,7,0,4,0,4
+Refactoring,com.sap.cc.videostore,NewReleaseMovie,0,23,0,2,0,9,0,4,0,3
+Refactoring,com.sap.cc.videostore,Main,11,0,0,0,3,0,2,0,2,0
+Refactoring,com.sap.cc.videostore,ChildrenMovie,0,22,0,2,0,7,0,4,0,3
+Refactoring,com.sap.cc.videostore,Movie,0,9,0,0,0,4,0,2,0,2
+Refactoring,com.sap.cc.videostore,Statement,0,111,0,2,0,30,0,11,0,10
+Refactoring,com.sap.cc.videostore,RegularMovie,0,22,0,2,0,7,0,4,0,3
