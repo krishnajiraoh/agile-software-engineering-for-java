@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovieFinder.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">decoupling-excercise</a> &gt; <a href="index.source.html" class="el_package">com.sap.cc.movies</a> &gt; <span class="el_source">MovieFinder.java</span></div><h1>MovieFinder.java</h1><pre class="source lang-java linenums">package com.sap.cc.movies;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class MovieFinder {
+
+    private MovieStorage movieStorage;
+
+<span class="fc" id="L10">    public MovieFinder(MovieStorage movieStorage) {</span>
+<span class="fc" id="L11">        this.movieStorage = movieStorage;</span>
+<span class="fc" id="L12">    }</span>
+
+    public List&lt;Movie&gt; findMoviesByDirector(String director) {
+<span class="fc" id="L15">        return movieStorage.getAll().stream()</span>
+<span class="fc" id="L16">                .filter(movie -&gt; movie.getDirector().equalsIgnoreCase(director))</span>
+<span class="fc" id="L17">                .collect(Collectors.toList());</span>
+    }
+
+    public List&lt;Movie&gt; findMoviesByTitle(String title) {
+<span class="fc" id="L21">        return movieStorage.getAll().stream()</span>
+<span class="fc" id="L22">                .filter(movie -&gt; movie.getTitle().toUpperCase().contains(title.toUpperCase()))</span>
+<span class="fc" id="L23">                .collect(Collectors.toList());</span>
+    }
+
+    public List&lt;Movie&gt; getAllMovies() {
+<span class="fc" id="L27">        return movieStorage.getAll();</span>
+    }
+
+    public MovieStorage getMovieStorage() {
+<span class="fc" id="L31">        return movieStorage;</span>
+    }
+
+    public void setMovieStorage(MovieStorage movieStorage) {
+<span class="nc" id="L35">        this.movieStorage = movieStorage;</span>
+<span class="nc" id="L36">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

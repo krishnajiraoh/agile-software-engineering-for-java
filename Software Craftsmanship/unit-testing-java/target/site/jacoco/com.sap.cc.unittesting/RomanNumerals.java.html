@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RomanNumerals.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Unit Testing</a> &gt; <a href="index.source.html" class="el_package">com.sap.cc.unittesting</a> &gt; <span class="el_source">RomanNumerals.java</span></div><h1>RomanNumerals.java</h1><pre class="source lang-java linenums">package com.sap.cc.unittesting;
+
+<span class="fc" id="L3">public class RomanNumerals {</span>
+
+    // Roman numerals only go up to 3999 (MMMCMXCIX)
+    private static final String ROMAN_NUMERAL_REGEX = &quot;^(?=[MDCLXVI])(M{0,3})(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$&quot;;
+
+    public int toArabic(String romanNumeral) {
+<span class="fc" id="L9">        final int ERROR_VALUE = -1;</span>
+<span class="fc bfc" id="L10" title="All 2 branches covered.">        if (romanNumeral == null) {</span>
+<span class="fc" id="L11">            return ERROR_VALUE;</span>
+        }
+
+<span class="fc" id="L14">        romanNumeral = romanNumeral.trim().toUpperCase();</span>
+<span class="fc bfc" id="L15" title="All 2 branches covered.">        if (isInvalidRoman(romanNumeral)) {</span>
+<span class="fc" id="L16">            return ERROR_VALUE;</span>
+        }
+<span class="fc" id="L18">        return convertRomanToArabic(romanNumeral);</span>
+    }
+
+    private int convertRomanToArabic(String romanNumeral) {
+<span class="fc" id="L22">        return calculateUpToLastSymbol(romanNumeral) + valueOfLastSymbol(romanNumeral);</span>
+    }
+
+    private int calculateUpToLastSymbol(String romanNumeral) {
+<span class="fc" id="L26">        int sum = 0;</span>
+<span class="fc" id="L27">        int indexOfPenultimateSymbol = romanNumeral.length() - 2;</span>
+<span class="fc bfc" id="L28" title="All 2 branches covered.">        for (int i = 0; i &lt;= indexOfPenultimateSymbol; i++) {</span>
+<span class="fc" id="L29">            int current = getDigitalValueAtIndex(romanNumeral, i);</span>
+<span class="fc" id="L30">            int next = getDigitalValueAtIndex(romanNumeral, i + 1);</span>
+
+<span class="fc bfc" id="L32" title="All 2 branches covered.">            if (current &lt; next) {</span>
+<span class="fc" id="L33">                sum -= current;</span>
+            } else {
+<span class="fc" id="L35">                sum += current;</span>
+            }
+        }
+<span class="fc" id="L38">        return sum;</span>
+    }
+
+    private int getDigitalValueAtIndex(String romanNumeral, int index) {
+<span class="fc" id="L42">        return Roman.valueOf(String.valueOf(romanNumeral.charAt(index))).value;</span>
+    }
+
+    private int valueOfLastSymbol(String romanNumeral) {
+<span class="fc" id="L46">        return getDigitalValueAtIndex(romanNumeral, romanNumeral.length() - 1);</span>
+    }
+
+    private boolean isInvalidRoman(String romanNumeral) {
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        return !romanNumeral.matches(ROMAN_NUMERAL_REGEX);</span>
+    }
+
+<span class="fc" id="L53">    private enum Roman {</span>
+<span class="fc" id="L54">        I(1), V(5), X(10), L(50), C(100), D(500), M(1000);</span>
+
+        private final int value;
+
+<span class="fc" id="L58">        Roman(int value) {</span>
+<span class="fc" id="L59">            this.value = value;</span>
+<span class="fc" id="L60">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

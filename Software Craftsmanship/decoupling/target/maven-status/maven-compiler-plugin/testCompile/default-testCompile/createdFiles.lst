@@ -1,0 +1,4 @@
+com/sap/cc/movies/MovieFixtures.class
+com/sap/cc/movies/MovieStorageaStub.class
+com/sap/cc/movies/MovieStorageTest.class
+com/sap/cc/movies/MovieFinderTest.class

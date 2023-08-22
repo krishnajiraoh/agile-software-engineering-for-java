@@ -1,0 +1,5 @@
+com/sap/cc/movies/InMemoryMovieStorage.class
+com/sap/cc/movies/MovieFinder.class
+com/sap/cc/movies/MovieStorage.class
+com/sap/cc/movies/Movie.class
+com/sap/cc/movies/Main.class

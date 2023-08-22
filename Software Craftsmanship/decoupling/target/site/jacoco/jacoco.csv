@@ -1,0 +1,5 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+decoupling-excercise,com.sap.cc.movies,Movie,62,26,12,0,7,11,9,6,3,6
+decoupling-excercise,com.sap.cc.movies,Main,4,0,0,0,2,0,2,0,2,0
+decoupling-excercise,com.sap.cc.movies,InMemoryMovieStorage,0,67,0,6,0,15,0,9,0,6
+decoupling-excercise,com.sap.cc.movies,MovieFinder,4,47,0,0,2,11,1,7,1,7
